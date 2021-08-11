@@ -24,7 +24,7 @@ def mean_squared_loss(x1, x2):
     return mean_distance
 
 
-model = load_model(MODEL_PATH)
+MODEL = load_model(MODEL_PATH)
 
 
 class VideoCamera():
@@ -38,7 +38,7 @@ class VideoCamera():
     def __del__(self):
         self.cap.release()
 
-    def __call__(self):
+    def predict(self):
         while True:
             imagedump = []
             ret, frame = self.cap.read()
@@ -47,6 +47,8 @@ class VideoCamera():
             if ret:
                 for _ in range(10):
                     ret, frame = self.cap.read()
+                    if not ret:
+                        continue
                     image = imutils.resize(frame, width=1000, height=1200)
 
                     frame = cv2.resize(frame, (227, 227),
@@ -57,13 +59,14 @@ class VideoCamera():
                     gray = np.clip(gray, 0, 1)
                     imagedump.append(gray)
 
+
                 imagedump = np.array(imagedump)
 
                 imagedump.resize(227, 227, 10)
                 imagedump = np.expand_dims(imagedump, axis=0)
                 imagedump = np.expand_dims(imagedump, axis=4)
 
-                output = model.predict(imagedump)
+                output = MODEL.predict(imagedump)
 
                 loss = mean_squared_loss(imagedump, output)
                 print(f"loss : {loss}")
@@ -84,7 +87,8 @@ class VideoCamera():
     def generateVideo(self):
         print("[INFO] Generating Video...")
         frame_arrays = []
-        images = sorted([glob(SAVE_IMG_PATH + "/" + "*.jpg")], key=lambda x: int(x.split(".")[0]))
+        print(f"[INFO] images :\n{glob(SAVE_IMG_PATH + '/' + '*.jpg')}")
+        images = sorted(glob(SAVE_IMG_PATH + "/" + "*.jpg"), key=lambda x: int(x.split("\\")[-1].split(".")[0]))
         for i in range(len(images)):
             cur_img = SAVE_IMG_PATH + "/" + images[i]
             """
@@ -92,12 +96,13 @@ class VideoCamera():
 
             """
             cur_img = cv2.imread(cur_img)
-            h, w, l = cur_img.shape
-            size = (w, h)
-            for k in range(2):
-                frame_arrays.append(cur_img)
+            if cur_img != None:
+                h, w, l = cur_img.shape
+                size = (w, h)
+                for k in range(2):
+                    frame_arrays.append(cur_img)
         
-        output = cv2.VideoWriter(SAVE_IMG_PATH + "/" + "done.mp4", cv2.VideoWriter_fourcc(*'mp4v'), 30, size)
+        output = cv2.VideoWriter(SAVE_IMG_PATH + "/" + "done.mp4", cv2.VideoWriter_fourcc(*'mp4v'), 30, (120, 120))
         for i in range(len(frame_arrays)):
             output.write(frame_arrays[i])
         

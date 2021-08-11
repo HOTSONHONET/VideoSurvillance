@@ -10,13 +10,9 @@
 </head>
 
 <body>
-    <form action="/handle-video" enctype="multipart/form-data" method="POST">
-        <div class="container">
-            <label><h1>Upload here video</h1></label>
-            <input type="file" name="video">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
+    <video width="320" height="300" controls>
+        <source src="{{ video_path }}" type="video/mp4">
+    </video>
 </body>
 
 </html>
