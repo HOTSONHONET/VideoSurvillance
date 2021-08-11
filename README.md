@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ~~~
 * Run the application using this command.
 ~~~
-py test.py 
+py run.py 
 ~~~
 Then it will ask you to give the video path. 
 * After, giving the video path hit **Enter** then you will see the magic of AI 🦾
