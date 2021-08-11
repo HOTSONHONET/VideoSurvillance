@@ -58,7 +58,7 @@ while cap.isOpened():
     loss=mean_squared_loss(imagedump,output)
     print(f"loss : {loss}")
 
-    if frame.any()==None:
+    if frame.any() == None:
         print("none")
 	
     
@@ -68,7 +68,9 @@ while cap.isOpened():
     if loss>0.000538:
         print('[WARNING] Abnormal Event Detected')
         cv2.putText(image,"Abnormal Event",(220,100),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,255),4)
-
+    
+    
+    cv2.namedWindow("video", cv2.WINDOW_NORMAL)
     cv2.imshow("video", image)
 
 cap.release()
