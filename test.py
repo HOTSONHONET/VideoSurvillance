@@ -1,10 +1,14 @@
 import cv2
 import numpy as np 
-from tensorflow.keras.models import load_model
-import argparse
-from PIL import Image
 import imutils
+from sample import myself
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # To ignore all the warnings from tensorflow
+from tensorflow.keras.models import load_model
+
+
+print(myself)
 
 def mean_squared_loss(x1,x2):
     difference=x1-x2
@@ -19,11 +23,12 @@ def mean_squared_loss(x1,x2):
 
 model=load_model("stae.h5")
 
-cap = cv2.VideoCapture("videos/buglary.mp4")
+
+path = input("[INFO] Give the video path here : ")
+cap = cv2.VideoCapture(path)
 cap.set(cv2.CAP_PROP_FPS, 5)
 
-print(cap.isOpened())
-
+print("[INFO] Running video analyzer...")
 while cap.isOpened():
     imagedump=[]
     ret,frame=cap.read()
@@ -58,10 +63,10 @@ while cap.isOpened():
         break
     # if loss>0.00068:
     if loss>0.000538:
-        print('Abnormal Event Detected')
+        print('[WARNING] Abnormal Event Detected')
         cv2.putText(image,"Abnormal Event",(220,100),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,255),4)
 
-    cv2.imshow("video",image)
+    cv2.imshow("video", image)
 
 cap.release()
 cv2.destroyAllWindows()
