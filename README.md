@@ -18,7 +18,7 @@ py test.py
 Then it will ask you to give the video path. 
 * After, giving the video path hit **Enter** then you will see the magic of AI 🦾
 
-# 📸 Sample images of application 📷
+# 📸 Sample images 📷
 
 <table>
   <tr>
