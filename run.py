@@ -9,7 +9,7 @@ from tensorflow.keras.models import load_model
 
 
 print(myself)
-
+print("[INFO] Starting...")
 def mean_squared_loss(x1,x2):
     difference=x1-x2
     a,b,c,d,e=difference.shape
@@ -33,9 +33,11 @@ while cap.isOpened():
     imagedump=[]
     ret,frame=cap.read()
 
+    if not ret: break
 
     for i in range(10):
         ret,frame=cap.read()
+        if not ret: break
         image = imutils.resize(frame,width=1000,height=1200)
 
         frame=cv2.resize(frame, (227,227), interpolation = cv2.INTER_AREA)
@@ -43,6 +45,7 @@ while cap.isOpened():
         gray=(gray-gray.mean())/gray.std()
         gray=np.clip(gray,0,1)
         imagedump.append(gray)
+        
 
     imagedump=np.array(imagedump)
 
@@ -58,7 +61,7 @@ while cap.isOpened():
     if frame.any()==None:
         print("none")
 	
-
+    
     if cv2.waitKey(10) & 0xFF==ord('q'):
         break
     # if loss>0.00068:
