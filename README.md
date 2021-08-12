@@ -1,6 +1,6 @@
 # 🚨🚔💻 AI Survillance 💻🚔🚨
 
-This is simple application which can automatically detect burglary, theft like events. The idea is to an **autoencoder** which will be responsible for studying spatio-temporal features from the input video feed.
+This is a simple application which can automatically detect burglary, theft like events. The idea is to use an **autoencoder** which will be responsible for studying spatio-temporal features from the input video feed.
 
 # 🏃🏽‍♂️🏃🏽‍♀️ How to run it? 🏃🏃🏽‍♂
 * Clone the repository using this command.
